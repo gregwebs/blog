@@ -13,10 +13,10 @@ class BlogPostTemplate extends React.Component {
     const { previous, next } = this.props.pathContext
 
     return (
-      <div>
+      <div className="blog-post">
         <Helmet title={`${post.frontmatter.title} | ${siteTitle}`}>
           <style type="text/css">{`
-            ul, ol {
+            .blog-post ul {
                 margin-left: 1.75rem;
             }
           `}</style>
