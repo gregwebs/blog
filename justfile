@@ -10,10 +10,12 @@ setup:
 	./build.sh
 	popd
 	./bin/yarn add gatsby-cli
+	./bin/yarn add netlify-cli
 
 deploy:
 	#!/usr/bin/env bash
 	set -euo pipefail
-	pushd front
+	pushd gatsby-blog
 	../bin/node gatsby build
-	../bin/node netlify deploy -p build -s eatnutrients
+	popd
+	./bin/node netlify deploy -p gatsby-blog/public -s blog-greg
