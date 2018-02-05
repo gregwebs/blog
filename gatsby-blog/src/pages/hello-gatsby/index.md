@@ -1,0 +1,54 @@
+---
+title: A Gatsby JS blog
+date: "2018-01-10T22:12:03.284Z"
+---
+
+I decided to start blogging again. I wanted my blog to meet these requirements:
+
+* static site that is easy to host
+* easy to get started with
+* can be integrated with a headless CMS
+
+GatsbyJS met these requirements.
+Additionally, its enticing to have a system that can generate static html pages but also has the
+ability to render from Javascript if the frontend needs to be customized.
+
+Additionally, I am familiar with React, so this will hopefully be a productive environment.
+
+For now, I am just going to use markdown posts from the filesystem, but I will be looking at the
+CMS integration.
+
+I am deploying to Netlify, which is a service for static sites. I am not using Netlify CMS, etc, but
+just giving Netlify the staic build.
+
+# References
+
+I am using the [standard blog starter](https://github.com/gatsbyjs/gatsby-starter-blog).
+
+## Practical tips
+
+* Including shipping to production without the SPA or with cache busting [here](https://blog.scottnonnenberg.com/practical-gatsby-js/).
+* Building layout components and listings for a blog [here](https://medium.freecodecamp.org/how-to-build-a-react-and-gatsby-powered-blog-in-about-10-minutes-625c35c06481)
+
+## CMS integration
+
+Local filesystem markdown editing can be a poor way of blogging for two reasons.
+
+* slow turn-around to seeing the post in the blog
+* requiring running blog software just to write or edit some content
+
+Gatsby solves the first issue with a hot-reload feature. Note that a switch to a CMS can
+re-introduce this issue (the Contentful source requires restarting the development server).
+
+One would use a *headless* CMS, which is built around APIs and separation of presentation.
+These both have free tiers that probably work for personal sites.
+I believe if one only statically builds the site, users of the site would not hit the API. However, if the SPA is shipped, it might actively use the APIs.
+
+* [GraphCMS](https://www.npmjs.com/package/gatsby-source-graphcms)
+* [Contentful](http://blog.alexmlewis.com/creating-a-blog-with-gatsbyjs-part-two/) and [here](https://hunterchang.com/gatsby-with-contentful-cms/)
+
+
+## Adding comments
+
+* [Discus](https://blog.jetboystudio.com/articles/gatsby/)
+* [Just comments](https://medium.com/@orKoN/add-comments-to-your-gatsbyjs-blog-within-two-minutes-aacf2b1afc8)
