@@ -1,0 +1,20 @@
+#!/bin/bash -e
+set -euo pipefail
+
+# repair the current directory string for WSL (Windows Subsystem for Linux users)
+if [[ $PWD != *"mnt"* ]];then
+  MYPWD=$PWD
+else
+  echo "You are running on windows using the WSL"
+  MYPWD=${PWD#/mnt}
+  echo $MYPWD
+fi
+
+
+exec docker run \
+  --network host \
+  -p 8000:8000 \
+  --rm -it -e PATH="./node_modules/.bin:$PATH" \
+  -v ~/.ssh:/root/.ssh \
+  -v $MYPWD:$MYPWD \
+  -w $MYPWD blog/node "$@"
