@@ -9,10 +9,9 @@ I decided to start blogging again. I wanted my blog to meet these requirements:
 * easy to get started with
 * can be integrated with a headless CMS
 
-GatsbyJS met these requirements.
-Additionally, its enticing to have a system that can generate static html pages but also has the
-ability to render from Javascript if the frontend needs to be customized.
-
+GatsbyJS met these requirements. It deploys a SPA (Single Page Application), which may be overkill,
+but it has the advantage of being a system that should be easier to draw CMS content from.
+Rendering from Javascript means frontend customization is easier.
 Additionally, I am familiar with React, so this will hopefully be a productive environment.
 
 For now, I am just going to use markdown posts from the filesystem, but I will be looking at the
@@ -21,13 +20,15 @@ CMS integration.
 I am deploying to Netlify, which is a service for static sites. I am not using Netlify CMS, etc, but
 just giving Netlify the staic build.
 
+
 # References
+
+## Blog layout
 
 I am using the [standard blog starter](https://github.com/gatsbyjs/gatsby-starter-blog).
 
 ## Practical tips
 
-* Including shipping to production without the SPA or with cache busting [here](https://blog.scottnonnenberg.com/practical-gatsby-js/).
 * Building layout components and listings for a blog [here](https://medium.freecodecamp.org/how-to-build-a-react-and-gatsby-powered-blog-in-about-10-minutes-625c35c06481)
 
 ## CMS integration
