@@ -51,5 +51,5 @@ I believe if one only statically builds the site, users of the site would not hi
 
 ## Adding comments
 
-* [Discus](https://blog.jetboystudio.com/articles/gatsby/)
+* [Discus](https://github.com/mzabriskie/react-disqus-thread)
 * [Just comments](https://medium.com/@orKoN/add-comments-to-your-gatsbyjs-blog-within-two-minutes-aacf2b1afc8)
