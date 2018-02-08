@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "gatsby-cli": "^1.1.34",
+    "netlify-cli": "^1.2.2"
+  }
+}
