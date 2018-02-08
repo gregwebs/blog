@@ -67,8 +67,10 @@ class BlogPostTemplate extends React.Component {
           )}
         </ul>
         <ReactDisqusThread
-            shortname="shortname"
+            identifier={post.slug}
+            shortname="gregweberblog"
             title={post.frontmatter.title}
+
         />
       </div>
     )
