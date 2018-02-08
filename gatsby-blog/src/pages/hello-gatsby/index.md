@@ -40,6 +40,8 @@ Local filesystem markdown editing can be a poor way of blogging for two reasons.
 
 Gatsby solves the first issue with a hot-reload feature. Note that a switch to a CMS can
 re-introduce this issue (the Contentful source requires restarting the development server).
+Gatsby is not necessarily well designed for dynamic updates, but you can see someone eventually
+achieving this [here](https://medium.com/@dwalsh.sdlr/gatsby-apollo-graphcool-netlify-the-webs-promised-land-6dd510efbd72).
 
 One would use a *headless* CMS, which is built around APIs and separation of presentation.
 These both have free tiers that probably work for personal sites.
