@@ -17,19 +17,19 @@ Additionally, I am familiar with React, so this will hopefully be a productive e
 For now, I am just going to use markdown posts from the filesystem, but I will be looking at the
 CMS integration.
 
+I am using the [standard blog starter](https://github.com/gatsbyjs/gatsby-starter-blog).
+I added [Discus](https://github.com/mzabriskie/react-disqus-thread) comments.
+There wasn't much else needed after that beyond a few styling fixes.
+
+
+# Deploy to Netlify
+
 I am deploying to Netlify, which is a service for static sites. I am not using Netlify CMS, etc, but
 just giving Netlify the staic build.
 
+I am really happy with Netlify. Deployment is easy, with notifications when complete. They have a lot of conveniences that most sites can benefit from.
+For example, clicking a button to get a let's encrypt SSL cert for the site.
 
-# References
-
-## Blog layout
-
-I am using the [standard blog starter](https://github.com/gatsbyjs/gatsby-starter-blog).
-
-## Practical tips
-
-* Building layout components and listings for a blog [here](https://medium.freecodecamp.org/how-to-build-a-react-and-gatsby-powered-blog-in-about-10-minutes-625c35c06481)
 
 ## CMS integration
 
@@ -49,9 +49,3 @@ I believe if one only statically builds the site, users of the site would not hi
 
 * [GraphCMS](https://www.npmjs.com/package/gatsby-source-graphcms)
 * [Contentful](http://blog.alexmlewis.com/creating-a-blog-with-gatsbyjs-part-two/) and [here](https://hunterchang.com/gatsby-with-contentful-cms/)
-
-
-## Adding comments
-
-* [Discus](https://github.com/mzabriskie/react-disqus-thread)
-* [Just comments](https://medium.com/@orKoN/add-comments-to-your-gatsbyjs-blog-within-two-minutes-aacf2b1afc8)
