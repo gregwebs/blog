@@ -1,5 +1,5 @@
 ---
-title: Haskell: Encapsulating unsafe IORefs
+title: "Haskell: Encapsulating unsafe IORefs"
 date: "2018-01-17T22:12:03.284Z"
 ---
 
