@@ -7,7 +7,7 @@ if [[ $PWD != *"mnt"* ]];then
 else
   echo "You are running on windows using the WSL"
   MYPWD=${PWD#/mnt}
-  echo $MYPWD
+  echo "$MYPWD"
 fi
 
 
@@ -16,5 +16,6 @@ exec docker run \
   -p 8000:8000 \
   --rm -it -e PATH="./node_modules/.bin:$PATH" \
   -v ~/.ssh:/root/.ssh \
-  -v $MYPWD:$MYPWD \
-  -w $MYPWD blog/node "$@"
+  -v "$HOME/.netlify:/root/.netlify" \
+  -v "$MYPWD:$MYPWD" \
+  -w "$MYPWD" blog/node "$@"
