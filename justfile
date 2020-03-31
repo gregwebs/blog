@@ -23,4 +23,6 @@ setup:
 	popd
 	./bin/yarn add gatsby-cli
 	./bin/yarn add netlify-cli
+	pushd gatsby-blog
+	../bin/node yarn install
 

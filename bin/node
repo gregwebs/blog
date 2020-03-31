@@ -1,15 +1,9 @@
 #!/bin/bash -e
 set -euo pipefail
 
-# repair the current directory string for WSL (Windows Subsystem for Linux users)
-if [[ $PWD != *"mnt"* ]];then
-  MYPWD=$PWD
-else
-  echo "You are running on windows using the WSL"
-  MYPWD=${PWD#/mnt}
-  echo "$MYPWD"
-fi
-
+pushd "$(dirname "$0")/.."
+full_dir="$PWD"
+popd
 
 exec docker run \
   --network host \
@@ -17,5 +11,5 @@ exec docker run \
   --rm -it -e PATH="./node_modules/.bin:$PATH" \
   -v ~/.ssh:/root/.ssh \
   -v "$HOME/.netlify:/root/.netlify" \
-  -v "$MYPWD:$MYPWD" \
-  -w "$MYPWD" blog/node "$@"
+  -v "$full_dir:$full_dir" \
+  -w "$PWD" blog/node "$@"
