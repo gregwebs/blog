@@ -1,6 +1,8 @@
 +++
 title = "Success with errors in Go: handling multiple errors"
 date = 2024-11-21
+[taxonomies]
+tags = ["go", "programming"]
 +++
 
 

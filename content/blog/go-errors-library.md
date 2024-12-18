@@ -1,6 +1,8 @@
 +++
 title = "Success with errors in Go: stack traces and metadata"
 date = 2024-11-20
+[taxonomies]
+tags = ["go", "programming"]
 +++
 
 # Introduction: Problems and patterns with Go errors
