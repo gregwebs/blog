@@ -49,27 +49,27 @@ var sentinelErr = stderrors.New("sentinel")
 The standard way of adding metadata to Go errors is to wrap them in format strings:
 
 ```go
-fmt.Errorf("context: %w", err)
+fmt.Errorf("message: %w", err)
 ```
 
 I understand why it was pragmatic to add a new formatting verb for errors, but I think the API is cryptic and limited compared to the library approach of:
 
 ```go
-errors.Wrap(err, "context")
+errors.Wrap(err, "message")
 ```
 
 There is also a `Wrapf` function for using formatting strings. However, as I have shifted towards structured logging I want all my metadata structured, including for errors.
 The errors library features an slog compatible API for adding metadata called `Wraps` where "s" stands for "structured".
 
 ```go
-errors.Wraps(err, "context", "id", 5)
+errors.Wraps(err, "message", "id", 5)
 ```
 
 A common pattern supported by the library is to accumulate attributes that can be used both with slog and for annotating errors:
 
 ```go
 attrs := []slog.Attr{slog.Int("id", 5), slog.String("key", "value")}
-errors.Wraps(err, "context", attrs)
+errors.Wraps(err, "message", attrs)
 ```
 
 A structured error can be converted into an slog record with `GetSlogRecord()`.
