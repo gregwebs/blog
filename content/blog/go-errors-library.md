@@ -21,7 +21,7 @@ I maintain [github.com/gregwebs/errors](https://github.com/gregwebs/errors) whic
 
 A Panic in Go produces a stack trace, but an error does not.
 
-Adding a stack trace to your go code happens automatically with an error library. If you use error creation functions:
+Adding a stack trace to your go code happens automatically with an error library that supports stack traces. If you use error creation functions:
 
 ```go
 errors.New("message")
