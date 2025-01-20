@@ -92,5 +92,5 @@ Future maintainers of your code base will thank you when they can quickly track 
 Future posts will discuss approaches to:
 
 * [multiple errors](@/blog/go-multiple-errors.md)
-* [error classification](https://github.com/gregwebs/errcode)
+* [error classification](@/blog/go-error-codes.md)
 * error reporting
