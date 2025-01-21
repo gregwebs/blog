@@ -92,3 +92,8 @@ This is a newer approach for me- perhaps I will change my approach in the future
 I still default to error smushing if I don't think I need to examine individual errors since it is faster to just smush.
 
 Think carefully about how you handle multi errors and let me know what approaches work for you.
+
+This is part of a series on Golang errors.
+
+* [stack traces and metadata](@/blog/go-errors-library.md)
+* [error classification](@/blog/go-error-codes.md)

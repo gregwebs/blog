@@ -208,3 +208,8 @@ There are a lot of Go libraries and homegrown systems that do this.
 We overview basic usage of a package [github.com/gregwebs/errcode](https://github.com/gregwebs/errcode) to show it's convenience for abstracting code and providing guarantees about client responses.
 It's also possible to create custom error codes, send back error responses, and otherwise adapt it to more advanced needs.
 
+
+This is part of a series on Golang errors.
+
+* [stack traces and metadata](@/blog/go-errors-library.md)
+* [multiple errors](@/blog/go-multiple-errors.md)
