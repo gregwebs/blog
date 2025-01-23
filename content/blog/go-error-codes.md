@@ -208,13 +208,18 @@ func (h *Handler) updateTag(c *gin.Context) {
 
 Using the type `errcode.UserCode` as the return type ensures that if there is an error it will have all the information we need for the client.
 
+## Extensibility
+
+The `errcode` package is highly extensible and integrateable due to the usage of wrapping.
+It supports defining custom error codes.
+Error codes can be added to existing types.
+Sending back custom error response bodies is also well supported since codes either wrap errors or are associated to error types and the errors can contain data for clients.
 
 ## Conclusion
 
 Error classificatgion is important to get right.
 There are a lot of Go libraries and homegrown systems that do this.
 We overview basic usage of a package [github.com/gregwebs/errcode](https://github.com/gregwebs/errcode) to show it's convenience for abstracting code and providing guarantees about client responses.
-It's also possible to create custom error codes, send back error responses, and otherwise adapt it to more advanced needs.
 
 
 This is part of a series on Golang errors.
