@@ -23,6 +23,14 @@ Code can also be made neutral to the transport- a code can correspond to both an
 This need has been met with many different error code packages.
 I will review the design and unique benefits of the package that I maintain: [github.com/gregwebs/errcode](https://github.com/gregwebs/errcode).
 
+## Easy to use
+
+Simple error codes are created by wrapping errors with a constructor that embeds the code.
+
+```go
+errcode.NewNotFoundErr(err)
+```
+
 ### Strings rather than numeric
 
 Traditionally error codes have been numeric. This helps with efficiency. However, numeric codes are not human readable in a meaninful way. This requires maintaining a mapping between numeric codes and human readable strings and performing that lookup. It's simpler to just use strings.
