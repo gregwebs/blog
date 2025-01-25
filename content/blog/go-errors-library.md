@@ -80,7 +80,7 @@ errors.Wraps(err, "message", attrs)
 ```
 
 A structured error can be converted into an slog record with `GetSlogRecord()`.
-From the [github.com/gregwebs/errors](https://github.com/gregwebs/errors) library I have separated out structured wrapping functionality as a seprate package [github.com/gregwebs/slogerr](https://github.com/gregwebs/slogerr) for those just interested in structured errors.
+From the [github.com/gregwebs/errors](https://github.com/gregwebs/errors) library I have separated out structured wrapping functionality as a seprate package [github.com/gregwebs/errors/slogerr](https://pkg.go.dev/github.com/gregwebs/errors/slogerr) for those just interested in structured errors.
 
 
 ## Conclusion
