@@ -5,10 +5,30 @@ date = 2025-01-20
 tags = ["go", "programming"]
 +++
 
+## Overview 
+
+Good error classification makes sure that an API client gets the information it needs and can respond apropriately.
+
+This need has been met by many different libraries and in house solutions.
+This article will review how error codes can be used using the [github.com/gregwebs/errcode](https://github.com/gregwebs/errcode) package that I maintain.
+
+## An example
+
+Simple error codes are created by wrapping errors with a constructor that embeds the code.
+The code and original error can be used to communicate to the client.
+
+```go
+errCode := errcode.NewNotFoundErr(err)
+// later on
+c.JSON(errcode.HTTPCode(errCode), ErrorResp{Error: errCode.Error()})
+```
+
+The error code created satisfies the `error` interface, making this easy to integrate with existing code.
+
 
 ## The neeed for Error Classification
 
-Good error classification is important for error handling. It allows you to handle errors in a way that is specific to the error type. For example, you might want to retry a transient error, but not a permanent error.
+Error classification allows you to handle errors in a way that is specific to the error type. For example, you might want to retry a transient error, but not a permanent error.
 
 This occurs both within a single code base and across network boundaries.
 In a single code base, in the database layer we might return an error indicating data was not found or an error indicating an internal failiure, possibly a transient database error. In the application layer we will want to translate that to the apropriate HTTP (or GRPC, etc) code.
@@ -18,22 +38,9 @@ The client should alter its behavior based on the HTTP code. In some cases, the 
 Returning an ErrorCode helps modularize code- a function that is not written in the context of an (HTTP) handler can encode an HTTP code.
 Code can also be made neutral to the transport- a code can correspond to both an HTTP code and also to a GRPC code, etc.
 
-## Desiging an Error Code package
-
-This need has been met with many different error code packages.
-I will review the design and unique benefits of the package that I maintain: [github.com/gregwebs/errcode](https://github.com/gregwebs/errcode).
-
-## Easy to use
-
-Simple error codes are created by wrapping errors with a constructor that embeds the code.
-
-```go
-errcode.NewNotFoundErr(err)
-```
-
 ### Strings rather than numeric
 
-Traditionally error codes have been numeric. This helps with efficiency. However, numeric codes are not human readable in a meaninful way. This requires maintaining a mapping between numeric codes and human readable strings and performing that lookup. It's simpler to just use strings.
+Traditionally error codes have been numeric. This helps with efficiency. However, numeric codes are not human readable in a meaninful way. This requires maintaining a mapping between numeric codes and human readable strings and performing that lookup. It's simpler to use strings, unless your error path must eek out every last bit of performance.
 
 Hierarchy of codes is supported by using a dot notation as seen below.
 Note that the codes and defined in a Golang DSL:
@@ -49,7 +56,7 @@ var (
 ### Metadata
 
 In the prior example, the HTTP code is set as metadata on the error code.
-SetHTTP is available as a pre-defined method on `Code` shown below, but it is possible to define any kind of metadata (using functions).
+SetHTTP is available as a pre-defined method on `Code` shown below, but it is possible to define any kind of metadata.
 
 ```go
 func (code Code) SetHTTP(httpCode int) Code {
@@ -64,12 +71,8 @@ When defining codes hierarchically, metadata is inherited from the parent code b
 
 ### Error Code structure
 
-Other Go implementations of error classification that I have seen use a single struct.  The approach I have taken is to use wrapping and interfaces- it can be used to provide great extensibility and also to provide guarantees about what data is available to a client.
+Other Go implementations of error classification that I have seen use a single struct. The approach I have taken is to use wrapping and interfaces- it can be used to provide great extensibility and also to provide guarantees about what data is available to a client.
 
-
-### Error Code Interface
-
-This package extends go errors via interfaces to have error codes.
 
 ```go
 type ErrorCode interface {
@@ -94,11 +97,11 @@ type HasUserMsg interface {
 }
 ```
 
-A `UserCode` can be created with `errcode.WithUserMsg` or `errcode.UserMsg`.
+A `UserCode` can be created with `errcode.WithUserMsg(code, message)` or `errcode.UserMsg(message).AddTo(code)`.
 
 ### Modularization
 
-Golang HTTP handler code does not compose- it is based on side effects.
+Golang HTTP handler can be difficult to compose- it is based on side effects.
 This if fine as long as you make the handler as small as possible.
 As the handler grows, things can easily go awry.
 Confusion about where HTTP responses should be generated can result in a double response or no response.
@@ -199,27 +202,31 @@ And now our handler can send both the HTTP code and message back to the client:
 ```go
 func (h *Handler) updateTag(c *gin.Context) {
 	// ...
-			tag, errCode := app.DB.UpdateTag(reqTag)
-			if errCode != nil {
-				c.JSON(errcode.HTTPCode(errCode), ErrorResp{Error: err.GetUserMsg()})
+			tag, userCode := app.DB.UpdateTag(reqTag)
+			if userCode != nil {
+				c.JSON(errcode.HTTPCode(userCode), ErrorResp{Error: err.GetUserMsg()})
 			}
 	// ...
 ```
 
 Using the type `errcode.UserCode` as the return type ensures that if there is an error it will have all the information we need for the client.
 
+For some projects, and in some cases, this may be too strong coupling of DB code to the user response.
+This is just a simple example and it is up to each project to define where abstractions are and what level is apropriate for attaching information to be used in a client response.
+In any approach [github.com/gregwebs/errcode](https://github.com/gregwebs/errcode) is still valuable to be able to abstract out handler code itself and to make it easy to test without having to create an HTTP life cycle.
+
+
 ## Extensibility
 
-The `errcode` package is highly extensible and integrateable due to the usage of wrapping.
+The [github.com/gregwebs/errcode](https://github.com/gregwebs/errcode) package is highly extensible and integrateable due to the usage of wrapping.
 It supports defining custom error codes.
 Error codes can be added to existing types.
 Sending back custom error response bodies is also well supported since codes either wrap errors or are associated to error types and the errors can contain data for clients.
 
 ## Conclusion
 
-Error classificatgion is important to get right.
-There are a lot of Go libraries and homegrown systems that do this.
-We overview basic usage of a package [github.com/gregwebs/errcode](https://github.com/gregwebs/errcode) to show it's convenience for abstracting code and providing guarantees about client responses.
+Error classification is important to get right to provide guarantees about client responses.
+It can also be used to abstract code from response handler systems.
 
 
 This is part of a series on Golang errors.
