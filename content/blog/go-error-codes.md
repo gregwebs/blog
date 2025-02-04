@@ -101,11 +101,9 @@ A `UserCode` can be created with `errcode.WithUserMsg(code, message)` or `errcod
 
 ### Modularization
 
-Golang HTTP handler can be difficult to compose- it is based on side effects.
-This if fine as long as you make the handler as small as possible.
-As the handler grows, things can easily go awry.
+Golang HTTP handler code can be difficult to compose- it is based on side effects.
 Confusion about where HTTP responses should be generated can result in a double response or no response.
-The code is more difficult to understand and test.
+The code is more difficult to understand and test than normal code, or at least the test requries an HTTP life cycle.
 
 Lets see some example code:
 
@@ -164,8 +162,7 @@ func (d *Database) UpdateTag(reqTag Tag) errcode.ErrorCode {
 }
 ```
 
-Now we have successfully abstracted out our DB code!
-the handler code can transition to:
+Now we have successfully abstracted out our DB code and the handler code can transition to:
 
 ```go
 func (h *Handler) updateTag(c *gin.Context) {
@@ -213,7 +210,7 @@ Using the type `errcode.UserCode` as the return type ensures that if there is an
 
 For some projects, and in some cases, this may be too strong coupling of DB code to the user response.
 This is just a simple example and it is up to each project to define where abstractions are and what level is apropriate for attaching information to be used in a client response.
-In any approach [github.com/gregwebs/errcode](https://github.com/gregwebs/errcode) is still valuable to be able to abstract out handler code itself and to make it easy to test without having to create an HTTP life cycle.
+In any approach [github.com/gregwebs/errcode](https://github.com/gregwebs/errcode) can be valuable to be able to abstract out handler code and to test handler code without having to create an HTTP life cycle.
 
 
 ## Extensibility
