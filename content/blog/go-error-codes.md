@@ -126,12 +126,12 @@ func (h *Handler) updateTag(c *gin.Context) {
 		return
 	}
 
-	tag, err := app.DB.GetTag(reqTag.Name)
+	tag, err := h.app.DB.GetTag(reqTag.Name)
 	if err != nil {
 		if database.IsNotFound(err) {
 			c.JSON(http.StatusNotFound, ErrorResp{Error: err.Error()})
 		} else {
-			tag, err := app.DB.UpdateTag(reqTag)
+			tag, err := h.app.DB.UpdateTag(reqTag)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, ErrorResp{Error: err.Error()})
 			}
@@ -143,11 +143,12 @@ func (h *Handler) updateTag(c *gin.Context) {
 }
 ```
 
-We can see that returning from the handler is interleaved everywhere and creating some complications. Lets transition the db portion to using error codes.
+We can see that returning from the handler is interleaved everywhere and creating some complications.
+Lets transition the code interacting with the tags to using error codes.
 
 ```go
-func (d *Database) UpdateTag(reqTag Tag) errcode.ErrorCode {
-	tag, err := d.GetTag(reqTag.Name)
+func (app *App) UpdateTag(reqTag Tag) errcode.ErrorCode {
+	tag, err := app.DB.GetTag(reqTag.Name)
 	if err != nil {
 		if database.IsNotFound(err) {
 			return errcode.NewNotFoundErr(err)
@@ -167,7 +168,7 @@ Now we have successfully abstracted out our DB code and the handler code can tra
 ```go
 func (h *Handler) updateTag(c *gin.Context) {
 	// ...
-			tag, errCode := app.DB.UpdateTag(reqTag)
+			tag, errCode := h.app.UpdateTag(reqTag)
 			if errCode != nil {
 				c.JSON(errcode.HTTPCode(errCode), ErrorResp{Error: err.Error()})
 			}
@@ -177,8 +178,8 @@ func (h *Handler) updateTag(c *gin.Context) {
 Depending on our use case, we might want to embed a user message with the codes that are returned.
 
 ```go
-func (d *Database) UpdateTag(reqTag Tag) (Tag, errcode.UserCode) {
-	tag, errGet := d.GetTag(reqTag.Name)
+func (app *App) UpdateTag(reqTag Tag) (Tag, errcode.UserCode) {
+	tag, errGet := app.DB.GetTag(reqTag.Name)
 	if errGet != nil {
 		if database.IsNotFound(errGet) {
 			return errcode.WithUserMsg("tag not found", errcode.NewNotFoundErr(errGet))
@@ -199,7 +200,7 @@ And now our handler can send both the HTTP code and message back to the client:
 ```go
 func (h *Handler) updateTag(c *gin.Context) {
 	// ...
-			tag, userCode := app.DB.UpdateTag(reqTag)
+			tag, userCode := app.UpdateTag(reqTag)
 			if userCode != nil {
 				c.JSON(errcode.HTTPCode(userCode), ErrorResp{Error: err.GetUserMsg()})
 			}
@@ -208,8 +209,13 @@ func (h *Handler) updateTag(c *gin.Context) {
 
 Using the type `errcode.UserCode` as the return type ensures that if there is an error it will have all the information we need for the client.
 
-For some projects, and in some cases, this may be too strong coupling of DB code to the user response.
-This is just a simple example and it is up to each project to define where abstractions are and what level is apropriate for attaching information to be used in a client response.
+This isn't the best example because DB code should probably be pushed down to the DB layer.
+A strictly DB layer usually wouldn't generate error codes.
+Error code abstraction shines when handlers are more complicated, calling into other services, and when there are re-use points of handler code.
+
+Error codes can be pushed down to lower levels. However, higher levels may still need to translate them to different error codes for their needs.
+
+It is up to each project to define where abstractions are and what level is apropriate for attaching information to be used in a client response.
 In any approach [github.com/gregwebs/errcode](https://github.com/gregwebs/errcode) can be valuable to be able to abstract out handler code and to test handler code without having to create an HTTP life cycle.
 
 
