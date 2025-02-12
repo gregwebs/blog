@@ -4,7 +4,8 @@ template = "info-page.html"
 path = "about"
 +++
 
-Greg Weber
+Greg Weber. Experienced Software Engineer. Available for hire.
 
-* [Github](https://github.com/gregwebs)
+* [Resume](/Resume_All.pdf)
 * [LinkedIn](https://www.linkedin.com/in/gregabramowitzweber/)
+* [Github](https://github.com/gregwebs)
