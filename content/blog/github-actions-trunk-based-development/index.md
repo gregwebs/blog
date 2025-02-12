@@ -12,9 +12,10 @@ Goal: On Github make it easy to use trunk based development and releases to depl
 A set of supporting Github Actions outlined here are [available to use](https://github.com/gregwebs/.github/tree/main/workflow-templates).
 
 
-#### Table of Contents
-
-<!-- toc -->
+<details>
+    <summary>Table of Contents</summary>
+    <!-- toc -->
+</details>
 
 ## Trunk Based Development versus Git Flow on Github
 
